@@ -1,0 +1,165 @@
+<html>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyMusicHub - Продвинутый Музыкальный Плеер</title>
+    <link rel='stylesheet' href='style.css'></link>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+    
+  <header>
+    <div class="logo">VPPK</div>
+    <nav>
+      <a href="#profile">Личный кабинет</a>
+      <a href="#support">Поддержка</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="player-container">
+      <div id="now-playing">Выберите песню для проигрывания</div>
+      <audio id="audio-player" src=""></audio>
+      <div class="controls">
+        <button onclick="playPrevious()"><i class="fas fa-step-backward"></i></button>
+        <button onclick="playPause()"><i class="fas fa-play"></i>/<i class="fas fa-pause"></i></button>
+        <button onclick="playNext()"><i class="fas fa-step-forward"></i></button>
+        <button onclick="toggleLike()" id="like-btn" class="like-btn"><i class="far fa-heart"></i></button>
+      </div>
+      <div class="file-upload">
+        <input type="file" id="add-song" accept="audio/*" onchange="addSong(event)">
+        <label for="add-song">Добавить свою музыку</label>
+      </div>
+    </div>
+
+    <div class="playlist-container">
+      <div class="playlist">
+        <h2>Плюсы</h2>
+        <ul id="playlist-plus">
+          <li onclick="playSong('song1.mp3', this, 'plus')">
+            Песня 1 <button class="like-btn" onclick="toggleSongLike(event, this)"><i class="far fa-heart"></i></button>
+          </li>
+          <li onclick="playSong('song2.mp3', this, 'plus')">
+            Песня 2 <button class="like-btn" onclick="toggleSongLike(event, this)"><i class="far fa-heart"></i></button>
+          </li>
+          <li onclick="playSong('song3.mp3', this, 'plus')">
+            Песня 3 <button class="like-btn" onclick="toggleSongLike(event, this)"><i class="far fa-heart"></i></button>
+          </li>
+        </ul>
+      </div>
+      <div class="playlist">
+        <h2>Минусы</h2>
+        <ul id="playlist-minus">
+          <li onclick="playSong('minus1.mp3', this, 'minus')">
+            Минус 1 <button class="like-btn" onclick="toggleSongLike(event, this)"><i class="far fa-heart"></i></button>
+          </li>
+          <li onclick="playSong('minus2.mp3', this, 'minus')">
+            Минус 2 <button class="like-btn" onclick="toggleSongLike(event, this)"><i class="far fa-heart"></i></button>
+          </li>
+          <li onclick="playSong('minus3.mp3', this, 'minus')">
+            Минус 3 <button class="like-btn" onclick="toggleSongLike(event, this)"><i class="far fa-heart"></i></button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="social-links">
+      <a href="https://wa.me/yourphonenumber" target="_blank"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://instagram.com/yourusername" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://t.me/yourusername" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+      <a href="https://youtube.com/yourchannel" target="_blank"><i class="fab fa-youtube"></i></a>
+    </div>
+  </footer>
+
+<script>
+const audioPlayer = document.getElementById('audio-player');
+const nowPlaying = document.getElementById('now-playing');
+const likeBtn = document.getElementById('like-btn');
+let currentSong = null;
+let currentPlaylist = null;
+let isLiked = false;
+
+function playSong(src, element, playlist) {
+  if (currentSong) {
+    currentSong.classList.remove('now-playing');
+  }
+  audioPlayer.src = src;
+  audioPlayer.play();
+  element.classList.add('now-playing');
+  currentSong = element;
+  currentPlaylist = playlist;
+  nowPlaying.textContent = 'Сейчас играет: ' + element.textContent.trim();
+  isLiked = element.querySelector('.like-btn').classList.contains('active');
+  updateLikeButton();
+}
+
+function playPause() {
+  if (audioPlayer.paused) {
+    audioPlayer.play();
+  } else {
+    audioPlayer.pause();
+  }
+}
+
+function playNext() {
+  const playlist = document.getElementById(`playlist-${currentPlaylist}`);
+  const nextSong = currentSong.nextElementSibling || playlist.firstElementChild;
+  playSong(nextSong.getAttribute('onclick').match(/'([^']+)'/)[1], nextSong, currentPlaylist);
+}
+
+function playPrevious() {
+  const playlist = document.getElementById(`playlist-${currentPlaylist}`);
+  const prevSong = currentSong.previousElementSibling || playlist.lastElementChild;
+  playSong(prevSong.getAttribute('onclick').match(/'([^']+)'/)[1], prevSong, currentPlaylist);
+}
+
+function toggleLike() {
+  isLiked = !isLiked;
+  updateLikeButton();
+  if (currentSong) {
+    const songLikeBtn = currentSong.querySelector('.like-btn');
+    songLikeBtn.classList.toggle('active');
+    songLikeBtn.innerHTML = isLiked ? '<i class="fas fa-heart"></i>' : '<i class="far fa-heart"></i>';
+  }
+}
+
+function updateLikeButton() {
+  likeBtn.innerHTML = isLiked ? '<i class="fas fa-heart"></i>' : '<i class="far fa-heart"></i>';
+  likeBtn.classList.toggle('active', isLiked);
+}
+
+function toggleSongLike(event, button) {
+  event.stopPropagation();
+  button.classList.toggle('active');
+  button.innerHTML = button.classList.contains('active') ? '<i class="fas fa-heart"></i>' : '<i class="far fa-heart"></i>';
+  if (currentSong === button.parentElement) {
+    isLiked = button.classList.contains('active');
+    updateLikeButton();
+  }
+}
+
+function addSong(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const newSong = document.createElement('li');
+      newSong.innerHTML = `
+        ${file.name}
+        <button class="like-btn" onclick="toggleSongLike(event, this)"><i class="far fa-heart"></i></button>
+      `;
+      newSong.onclick = function() {
+        playSong(e.target.result, this, 'plus');
+      };
+      document.getElementById('playlist-plus').appendChild(newSong);
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+audioPlayer.addEventListener('ended', playNext);
+</script>
+</body></html>

@@ -1,0 +1,167 @@
+:root {
+    --primary-color: #1DB954;
+    --secondary-color: #191414;
+    --text-color: #FFFFFF;
+    --background-color: #121212;
+  }
+
+  body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  header {
+    background-color: var(--secondary-color);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    width: 150px;
+    height: 50px;
+    background-color: var(--primary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 18px;
+    border-radius: 5px;
+  }
+
+  nav a {
+    color: var(--text-color);
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: bold;
+  }
+
+  main {
+    display: flex;
+    flex: 1;
+    padding: 20px;
+  }
+
+  .player-container {
+    flex: 1;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    margin-right: 20px;
+  }
+
+  .controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .controls button {
+    background-color: var(--primary-color);
+    border: none;
+    color: var(--text-color);
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .controls button:hover {
+    background-color: #1ed760;
+  }
+
+  .playlist-container {
+    flex: 1;
+    display: flex;
+  }
+
+  .playlist {
+    flex: 1;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 0 10px;
+  }
+
+  .playlist h2 {
+    margin-top: 0;
+    color: var(--primary-color);
+  }
+
+  .playlist ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .playlist li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .playlist li:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .now-playing {
+    font-weight: bold;
+    color: var(--primary-color);
+  }
+
+  .like-btn {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: 18px;
+  }
+
+  .like-btn.active {
+    color: var(--primary-color);
+  }
+
+  footer {
+    background-color: var(--secondary-color);
+    padding: 20px;
+    text-align: center;
+  }
+
+  .social-links a {
+    color: var(--text-color);
+    font-size: 24px;
+    margin: 0 10px;
+    text-decoration: none;
+  }
+
+  .file-upload {
+    margin-top: 20px;
+  }
+
+  .file-upload input {
+    display: none;
+  }
+
+  .file-upload label {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .file-upload label:hover {
+    background-color: #1ed760;
+  }
